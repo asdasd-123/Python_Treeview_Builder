@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 search_headings = ("ID", "Name", "Chip No. ", "Vaccinated")
+search_widths = (40, 50, 60, 80)
 search_data = (
     ("01", "Cookie", "7493732", "42005"),
     ("02", "Gibbie", "7342152", "42038"),
@@ -48,10 +49,11 @@ main_frame = ttk.Frame(root, width="500", height="500", style="blue.TFrame")
 main_frame.pack_propagate(0)
 main_frame.pack(expand=True, fill="both")
 
-Tree1 = TreeBuild(
+tree_1 = TreeBuild(
     main_frame, 
     search=True, 
     data=search_data,
     headings=search_headings)
+
 
 root.mainloop()

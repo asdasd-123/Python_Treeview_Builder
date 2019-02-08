@@ -22,16 +22,40 @@ class TreeBuild:
         self.headings = list(headings)
         self.search = search
         self.widths = list(widths)
+        if len(widths) > 0:
+            self.widths_supplied = True
 
-        self._convert_headings()
+        self._setup_styles()
 
         # Saving the below example incase I need to access any kwargs
         # self.search = getattr(self, "search", None)
         if self.search == True:
+            self._convert_headings()
             self._build_search_frame()
+            
+
+    def _setup_styles(self):
+        self.blue_frame = ttk.Style()
+        self.blue_frame.configure("blue.TFrame", background="blue")
+        self.green_frame = ttk.Style()
+        self.green_frame.configure("green.TFrame", background="green")
+        self.red_frame = ttk.Style()
+        self.red_frame.configure("red.TFrame", background="red")
+        self.yellow_frame = ttk.Style()
+        self.yellow_frame.configure("yellow.TFrame", background="yellow")
+        self.pink_frame = ttk.Style()
+        self.pink_frame.configure("pink.TFrame", background="pink")
+        self.brown_frame = ttk.Style()
+        self.brown_frame.configure("brown.TFrame", background="brown")
+        self.grey_frame = ttk.Style()
+        self.grey_frame.configure("grey.TFrame", background="grey")
+        self.purple_frame = ttk.Style()
+        self.purple_frame.configure("purple.TFrame", background="purple")
+        self.white_frame = ttk.Style()
+        self.white_frame.configure("white.TFrame", background="white")
 
     def _convert_headings(self):
-        """convert the headings list to a list of ID's needed"""
+        """convert the headings list to a list of ID's needed for building up the search list"""
         new_headings = []       
         for item in self.headings:
             new_heading_list = [str(item), str(item) + '_frame']
@@ -49,8 +73,9 @@ class TreeBuild:
         self.search_frame.pack(side="top", anchor="n", expand=True, fill="x")
         for heading in self.headings:
             # Get width of heading in pixels
-            w = tkfont.Font().measure(heading[0])
-            setattr(self, heading[1], ttk.Frame(self.search_frame, padding="5", style="green.TFrame"))
+            w = tkfont.Font().measure(heading[0]) + 20
+            setattr(self, heading[1], ttk.Frame(self.search_frame, padding="3", width=w, height="30", style="green.TFrame"))
+            getattr(self, heading[1]).pack_propagate(0)
             getattr(self, heading[1]).pack(side="left")
             setattr(self, heading[0], ttk.Entry(getattr(self, heading[1])))
             getattr(self, heading[0]).pack(side="left")
