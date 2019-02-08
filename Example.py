@@ -37,9 +37,15 @@ search_data = (
     ("31", "Cookieaaaaa", "9735914", "42995")
     )
 
+
+
 root = tk.Tk()
 
-main_frame = ttk.Frame(root, width="500", height="500")
+blue_frame = ttk.Style()
+blue_frame.configure("blue.TFrame", background="blue")
+
+main_frame = ttk.Frame(root, width="500", height="500", style="blue.TFrame")
+main_frame.pack_propagate(0)
 main_frame.pack(expand=True, fill="both")
 
 Tree1 = TreeBuild(
