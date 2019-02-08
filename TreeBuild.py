@@ -24,6 +24,8 @@ class TreeBuild:
         self.widths = list(widths)
         if len(widths) > 0:
             self.widths_supplied = True
+        else:
+            self.widths_supplied = False
 
         self._setup_styles()
 
@@ -57,8 +59,10 @@ class TreeBuild:
     def _convert_headings(self):
         """convert the headings list to a list of ID's needed for building up the search list"""
         new_headings = []       
-        for item in self.headings:
+        for counter, item in enumerate(self.headings):
             new_heading_list = [str(item), str(item) + '_frame']
+            if self.widths_supplied:
+                new_heading_list.append(self.widths[counter])
             new_headings.append(new_heading_list)
         self.headings = list(new_headings)
         print("new headings:\n\n" + str(self.headings))
@@ -73,7 +77,10 @@ class TreeBuild:
         self.search_frame.pack(side="top", anchor="n", expand=True, fill="x")
         for heading in self.headings:
             # Get width of heading in pixels
-            w = tkfont.Font().measure(heading[0]) + 20
+            if self.widths_supplied:
+                w = heading[2]
+            else:
+                w = tkfont.Font().measure(heading[0]) + 20
             setattr(self, heading[1], ttk.Frame(self.search_frame, padding="3", width=w, height="30", style="green.TFrame"))
             getattr(self, heading[1]).pack_propagate(0)
             getattr(self, heading[1]).pack(side="left")

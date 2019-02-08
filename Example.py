@@ -53,6 +53,7 @@ tree_1 = TreeBuild(
     main_frame, 
     search=True, 
     data=search_data,
+    # widths=search_widths,
     headings=search_headings)
 
 
