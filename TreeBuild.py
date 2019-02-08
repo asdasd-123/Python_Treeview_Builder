@@ -17,9 +17,10 @@ class TreeBuild:
             print("self." + key + " = " + str(value))
         
         self.parent = parent
-        self.data = data
-        self.headings = headings
+        self.data = list(data)
+        self.headings = list(headings)
         self.search = search
+        self.widths = list(widths)
 
         # Saving the below example incase I need to access any kwargs
         # self.search = getattr(self, "search", None)
