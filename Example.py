@@ -44,7 +44,7 @@ main_frame.pack(expand=True, fill="both")
 
 Tree1 = TreeBuild(
     main_frame, 
-    # search=True, 
+    search=True, 
     data=search_data,
     headings=search_headings)
 
