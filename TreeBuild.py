@@ -66,7 +66,7 @@ class TreeBuild:
         """convert the headings list to a list of ID's needed for building up the search list"""
         new_headings = []       
         for counter, item in enumerate(self.headings):
-            new_heading_list = [str(item), str(item) + '_frame']
+            new_heading_list = [str(item), str(item) + '_frame', str(item) + '_text_data']
             if self.widths_supplied:
                 new_heading_list.append(self.widths[counter])
             new_headings.append(new_heading_list)
@@ -84,7 +84,7 @@ class TreeBuild:
         for heading in self.headings:
             # Get width of heading in pixels
             if self.widths_supplied:
-                w = heading[2]
+                w = heading[3]
             else:
                 w = tkfont.Font().measure(heading[0]) + 20
 
@@ -92,9 +92,18 @@ class TreeBuild:
             setattr(self, heading[1], ttk.Frame(self.search_frame, padding="3", width=w, height="30", style="green.TFrame"))
             getattr(self, heading[1]).pack_propagate(0)
             getattr(self, heading[1]).pack(side="left")
-            setattr(self, heading[0], ttk.Entry(getattr(self, heading[1])))
+            setattr(self, heading[0], ttk.Entry(getattr(self, heading[1]), exportselection=0))
+            getattr(self, heading[0]).name = heading[0]
+            getattr(self, heading[0]).bind(
+                "<KeyRelease>",
+                lambda event: self._search_tree(
+                    self.tree,
+                    self.data,
+                    self.original_headings,
+                    event.widget.name,
+                    event.widget.get()))
             getattr(self, heading[0]).pack(side="left", fill="x", expand="True")
-            
+
 
     def _build_tree(self):
 
@@ -118,7 +127,7 @@ class TreeBuild:
         for col in self.headings:
             # Get width of column in pixels
             if self.widths_supplied:
-                w = col[2]
+                w = col[3]
             else:
                 w = tkfont.Font().measure(col[0]) + 20
 
@@ -144,3 +153,28 @@ class TreeBuild:
 
         # Switch the heading so that it will sort in the opposite order
         tree.heading(col, command=lambda col=col: self._sort_tree(tree, col, int(not descending)))
+
+    def _search_tree(self, tree, ds, dh, col_st, st):
+        """Will search through any tree or column for a specific string.
+        The following must be supplied:
+        tree     - tree to adjust
+        ds       - data set to search
+        dh       - data headings to find which col number
+        col_st   - column string to check against headings
+        st       - text in search box"""
+        # If search str empty, use full data set.
+        # Slightly more efficient as it avoids the search
+        if st == '':
+            tree.delete(*tree.get_children())   # Delete all items in tree
+            for row in ds:
+                tree.insert('','end', values=row)
+            return
+
+        col = dh.index(col_st)
+        new_data = []   # List to store new filtered list
+        for row in ds:  # Build new filtered list
+            if (row[col].upper()).__contains__(st.upper()):
+                new_data.append(row)
+        tree.delete(*tree.get_children())   # Delete all items currently in tree
+        for row in new_data:                # Build up tree with new data
+            tree.insert('', 'end', values=row)
