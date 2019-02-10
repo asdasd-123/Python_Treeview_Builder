@@ -1,3 +1,30 @@
+# =============================================
+#   _______            ____        _ _     _
+#  |__   __|          |  _ \      (_) |   | |
+#     | |_ __ ___  ___| |_) |_   _ _| | __| |
+#     | | '__/ _ \/ _ \  _ <| | | | | |/ _` |
+#     | | | |  __/  __/ |_) | |_| | | | (_| |
+#     |_|_|  \___|\___|____/ \__,_|_|_|\__,_|
+#
+# =============================================
+# This module will build a TTK Treeview widget inside a supplied frame.
+#
+# An example of how to create one:
+# tree_1 = TreeBuild(
+#     main_frame,                # Parent frame
+#     search=True,               # Enable search boxes or not (True/False)
+#     data=search_data,          # Data list of lists for Tree
+#     widths=search_widths,      # List of heading widths (optional)
+#     headings=search_headings)  # List of tree headings
+#
+# An example of how to then bind a function to the treeview
+# tree_1.tree.bind(
+#     "<Double-1>",
+#     lambda c: test_func(tree_1.tree.item(tree_1.tree.focus())))
+#
+# An example of how to read the contents of one of the search boxes.
+# temp_var = getattr(tree_1, search_headings[1]).get()
+
 import tkinter.ttk as ttk
 import tkinter.font as tkfont
 
@@ -155,7 +182,8 @@ class TreeBuild:
     def _sort_tree(self, tree, col, descending):
         """Sort the tree column when clicked on"""
         # Grab values to sort
-        data = [(tree.set(child, col), child) for child in tree.get_children('')]
+        data = [(tree.set(child, col), child)
+                for child in tree.get_children('')]
 
         # Re-order ther data
         data.sort(reverse=descending)
