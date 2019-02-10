@@ -30,13 +30,17 @@ tree_1 = TreeBuild(
     search=True,                        # Enable search boxes or not
     data=search_data,                   # Data list if lists for Tree
     widths=search_widths,               # List of heading widths (optional)
-    headings=search_headings)           # List of tree headings     
+    headings=search_headings)           # List of tree headings
 
 
 # How to bind a function to the treeview event.
 def test_func(test):
     print("teststring = " + str(test['values'][0]))
-tree_1.tree.bind("<Double-1>", lambda c: test_func(tree_1.tree.item(tree_1.tree.focus())))
+
+
+tree_1.tree.bind(
+    "<Double-1>",
+    lambda c: test_func(tree_1.tree.item(tree_1.tree.focus())))
 
 # test_button = ttk.Button(root, text="test button", command=print_id_contents)
 # test_button.pack(side="bottom")

@@ -1,11 +1,11 @@
-import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.font as tkfont
 
 
 class TreeBuild:
-    def __init__(self, parent, data, headings, search=False, widths=[], **kwargs):
-        """Will place a treeview with provided data set, complete with search boxes if needed.
+    def __init__(self, parent, data, headings, search=False, widths=[]):
+        """Will place a treeview with provided data set,
+        complete with search boxes if needed.
         * - Optional
         parent  - parent frame
         data    - list of lists containing row data
@@ -13,11 +13,7 @@ class TreeBuild:
         search* - Default=False. True to add search boxes
         widths* - List of fixed column widths, otherwise auto selected
         """
-        # Setting attributes as the kwargs (planning to use this later.)
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-            print("self." + key + " = " + str(value))
-        
+
         self.parent = parent
         self.original_data = list(data)
         self.data = list(data)
@@ -37,12 +33,11 @@ class TreeBuild:
         # Saving the below example incase I need to access any kwargs
         # self.search = getattr(self, "search", None)
 
-        if self.search == True:
+        if self.search:
             self._build_search_frame()
-        
+
         self._build_tree()
         self._populate_tree()
-            
 
     def _setup_styles(self):
         self.blue_frame = ttk.Style()
@@ -65,16 +60,19 @@ class TreeBuild:
         self.white_frame.configure("white.TFrame", background="white")
 
     def _convert_headings(self):
-        """convert the headings list to a list of ID's needed for building up the search list"""
-        new_headings = []       
+        """convert the headings list to a list of ID's
+        needed for building up the search list"""
+        new_headings = []
         for counter, item in enumerate(self.headings):
-            new_heading_list = [str(item), str(item) + '_frame', str(item) + '_text_data']
+            new_heading_list = [str(item),
+                                str(item) + '_frame',
+                                str(item) + '_text_data']
             if self.widths_supplied:
                 new_heading_list.append(self.widths[counter])
             new_headings.append(new_heading_list)
         self.headings = list(new_headings)
         print("new headings:\n\n" + str(self.headings))
-        
+
         # Now setting all new heading info as attributes of TreeBuild
         # for row in self.headings:
         #     for item in row:
@@ -91,10 +89,15 @@ class TreeBuild:
                 w = tkfont.Font().measure(heading[0]) + 20
 
             # Build the frame and then the entry box inside.
-            setattr(self, heading[1], ttk.Frame(self.search_frame, padding="3", width=w, height="30"))
+            setattr(self, heading[1], ttk.Frame(self.search_frame,
+                                                padding="3",
+                                                width=w,
+                                                height="30"))
             getattr(self, heading[1]).pack_propagate(0)
             getattr(self, heading[1]).pack(side="left")
-            setattr(self, heading[0], ttk.Entry(getattr(self, heading[1]), exportselection=0, textvariable=heading[2]))
+            setattr(self, heading[0], ttk.Entry(getattr(self, heading[1]),
+                                                exportselection=0,
+                                                textvariable=heading[2]))
             getattr(self, heading[0]).name = heading[0]
             getattr(self, heading[0]).bind(
                 "<KeyRelease>",
@@ -104,14 +107,18 @@ class TreeBuild:
                     self.original_headings,
                     event.widget.name,
                     event.widget.get()))
-            getattr(self, heading[0]).pack(side="left", fill="x", expand="True")
-
+            getattr(self, heading[0]).pack(side="left",
+                                           fill="x",
+                                           expand="True")
 
     def _build_tree(self):
 
         # Creating the tree frame
         self.tree_frame = ttk.Frame(self.parent)
-        self.tree_frame.pack(side="bottom",anchor="n", expand=True, fill="both")
+        self.tree_frame.pack(side="bottom",
+                             anchor="n",
+                             expand=True,
+                             fill="both")
 
         # Build tree
         self.tree = ttk.Treeview(columns=self.original_headings,
@@ -133,7 +140,11 @@ class TreeBuild:
             else:
                 w = tkfont.Font().measure(col[0]) + 20
 
-            self.tree.heading(col[0], text=col[0], anchor="w", command=lambda c=col[0]: self._sort_tree(self.tree, c, 0))
+            self.tree.heading(
+                col[0],
+                text=col[0],
+                anchor="w",
+                command=lambda c=col[0]: self._sort_tree(self.tree, c, 0))
             self.tree.column(col[0], width=w, anchor="w", stretch="No")
         print("Built Tree")
 
@@ -154,7 +165,11 @@ class TreeBuild:
             tree.move(item[1], '', index)
 
         # Switch the heading so that it will sort in the opposite order
-        tree.heading(col, command=lambda col=col: self._sort_tree(tree, col, int(not descending)))
+        tree.heading(
+            col,
+            command=lambda col=col: self._sort_tree(tree,
+                                                    col,
+                                                    int(not descending)))
 
     def _search_tree(self, tree, ds, dh, col_st, st):
         """Will search through any tree or column for a specific string.
@@ -169,7 +184,7 @@ class TreeBuild:
         if st == '':
             tree.delete(*tree.get_children())   # Delete all items in tree
             for row in ds:
-                tree.insert('','end', values=row)
+                tree.insert('', 'end', values=row)
             return
 
         col = dh.index(col_st)
@@ -177,7 +192,7 @@ class TreeBuild:
         for row in ds:  # Build new filtered list
             if (row[col].upper()).__contains__(st.upper()):
                 new_data.append(row)
-        tree.delete(*tree.get_children())   # Delete all items currently in tree
+        tree.delete(*tree.get_children())   # Delete all items in tree
         self.data = new_data
         for row in new_data:                # Build up tree with new data
             tree.insert('', 'end', values=row)
