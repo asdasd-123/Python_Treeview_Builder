@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.font as tkfont
 
+
 class TreeBuild:
     def __init__(self, parent, data, headings, search=False, widths=[], **kwargs):
         """Will place a treeview with provided data set, complete with search boxes if needed.
@@ -18,6 +19,7 @@ class TreeBuild:
             print("self." + key + " = " + str(value))
         
         self.parent = parent
+        self.original_data = list(data)
         self.data = list(data)
         self.original_headings = list(headings)
         self.headings = list(headings)
@@ -79,7 +81,7 @@ class TreeBuild:
         #         setattr(self, )
 
     def _build_search_frame(self):
-        self.search_frame = ttk.Frame(self.parent, height="50", style="red.TFrame")
+        self.search_frame = ttk.Frame(self.parent, height="50")
         self.search_frame.pack(side="top", anchor="n", fill="x")
         for heading in self.headings:
             # Get width of heading in pixels
@@ -89,16 +91,16 @@ class TreeBuild:
                 w = tkfont.Font().measure(heading[0]) + 20
 
             # Build the frame and then the entry box inside.
-            setattr(self, heading[1], ttk.Frame(self.search_frame, padding="3", width=w, height="30", style="green.TFrame"))
+            setattr(self, heading[1], ttk.Frame(self.search_frame, padding="3", width=w, height="30"))
             getattr(self, heading[1]).pack_propagate(0)
             getattr(self, heading[1]).pack(side="left")
-            setattr(self, heading[0], ttk.Entry(getattr(self, heading[1]), exportselection=0))
+            setattr(self, heading[0], ttk.Entry(getattr(self, heading[1]), exportselection=0, textvariable=heading[2]))
             getattr(self, heading[0]).name = heading[0]
             getattr(self, heading[0]).bind(
                 "<KeyRelease>",
                 lambda event: self._search_tree(
                     self.tree,
-                    self.data,
+                    self.original_data,
                     self.original_headings,
                     event.widget.name,
                     event.widget.get()))
@@ -108,7 +110,7 @@ class TreeBuild:
     def _build_tree(self):
 
         # Creating the tree frame
-        self.tree_frame = ttk.Frame(self.parent, style="yellow.TFrame")
+        self.tree_frame = ttk.Frame(self.parent)
         self.tree_frame.pack(side="bottom",anchor="n", expand=True, fill="both")
 
         # Build tree
@@ -176,5 +178,6 @@ class TreeBuild:
             if (row[col].upper()).__contains__(st.upper()):
                 new_data.append(row)
         tree.delete(*tree.get_children())   # Delete all items currently in tree
+        self.data = new_data
         for row in new_data:                # Build up tree with new data
             tree.insert('', 'end', values=row)
