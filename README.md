@@ -6,6 +6,7 @@ Features:
 - Easily toggle between column widths being supplied or calculated automatically based on heading title width
 
 # How to use it:
+# (Check example.py for working example)
 - Create a frame you want it to be housed in.
 ```python
 main_frame = ttk.Frame(root, width="500", height="500", style="blue.TFrame")
