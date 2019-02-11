@@ -47,4 +47,3 @@ temp_var = getattr(tree_1, search_headings[1]).get()
 
 # To-Do list
 - Add optional parameter to enable multiple selection in Treeview
-- Stop it from breaking if you name any of the headings the same as any of the variables used in it.
