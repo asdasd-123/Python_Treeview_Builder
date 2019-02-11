@@ -98,7 +98,6 @@ class TreeBuild:
                 new_heading_list.append(self.widths[counter])
             new_headings.append(new_heading_list)
         self.headings = list(new_headings)
-        print("new headings:\n\n" + str(self.headings))
 
         # Now setting all new heading info as attributes of TreeBuild
         # for row in self.headings:
@@ -173,7 +172,6 @@ class TreeBuild:
                 anchor="w",
                 command=lambda c=col[0]: self._sort_tree(self.tree, c, 0))
             self.tree.column(col[0], width=w, anchor="w", stretch="No")
-        print("Built Tree")
 
     def _populate_tree(self):
         for item in self.data:
