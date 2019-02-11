@@ -1,5 +1,5 @@
 ## TreeBuild:
-This module will build a TTK Treeview widget inside a supplied frame.
+This library will build a TTK Treeview widget inside a supplied frame.
 
 Features:
 - Option to enable search boxes.

@@ -7,7 +7,7 @@
 #     |_|_|  \___|\___|____/ \__,_|_|_|\__,_|
 #
 # =============================================
-# This module will build a TTK Treeview widget inside a supplied frame.
+# This library will build a TTK Treeview widget inside a supplied frame.
 #
 # An example of how to create one:
 # tree_1 = TreeBuild(
