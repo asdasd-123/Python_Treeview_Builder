@@ -1,6 +1,9 @@
 ## TreeBuild:
 This library will build a TTK Treeview widget inside a supplied frame.
 
+Installation:
+Just copy the TreeBuild.py file into your project directory and add "Import TreeBuild" to the top of your file.
+
 Features:
 - Option to enable search boxes.
 - Easily toggle between column widths being supplied or calculated automatically based on heading title width
