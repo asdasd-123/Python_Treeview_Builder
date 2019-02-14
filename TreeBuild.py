@@ -30,6 +30,15 @@ import tkinter.font as tkfont
 
 
 class TreeBuild:
+    """Will place a treeview with provided data set,
+    complete with search boxes if needed.
+    * - Optional
+    parent  - parent frame
+    data    - list of lists containing row data
+    heading - list of heading names
+    search* - Default=False. True to add search boxes
+    widths* - List of fixed column widths, otherwise auto selected
+    """
     def __init__(self, parent, data, headings, search=False, widths=[]):
         """Will place a treeview with provided data set,
         complete with search boxes if needed.
@@ -222,3 +231,10 @@ class TreeBuild:
         self.data = new_data
         for row in new_data:                # Build up tree with new data
             tree.insert('', 'end', values=row)
+
+    def refresh_data(self, new_data):
+        """Will refresh the data in the tree with a new set provided.
+        Will not affect columns/headings"""
+        self.tree.delete(*self.tree.get_children())
+        for row in new_data:
+            self.tree.insert('', 'end', values=row)
