@@ -62,8 +62,6 @@ class TreeBuild:
         else:
             self.widths_supplied = False
 
-        # Setup any styles used.
-        self._setup_styles()
         self._convert_headings()
 
         # Saving the below example incase I need to access any kwargs
@@ -74,26 +72,6 @@ class TreeBuild:
 
         self._build_tree()
         self._populate_tree()
-
-    def _setup_styles(self):
-        self.blue_frame = ttk.Style()
-        self.blue_frame.configure("blue.TFrame", background="blue")
-        self.green_frame = ttk.Style()
-        self.green_frame.configure("green.TFrame", background="green")
-        self.red_frame = ttk.Style()
-        self.red_frame.configure("red.TFrame", background="red")
-        self.yellow_frame = ttk.Style()
-        self.yellow_frame.configure("yellow.TFrame", background="yellow")
-        self.pink_frame = ttk.Style()
-        self.pink_frame.configure("pink.TFrame", background="pink")
-        self.brown_frame = ttk.Style()
-        self.brown_frame.configure("brown.TFrame", background="brown")
-        self.grey_frame = ttk.Style()
-        self.grey_frame.configure("grey.TFrame", background="grey")
-        self.purple_frame = ttk.Style()
-        self.purple_frame.configure("purple.TFrame", background="purple")
-        self.white_frame = ttk.Style()
-        self.white_frame.configure("white.TFrame", background="white")
 
     def _convert_headings(self):
         """convert the headings list to a list of ID's
