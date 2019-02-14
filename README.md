@@ -7,6 +7,7 @@ Just copy the TreeBuild.py file into your project directory and add "Import Tree
 Features:
 - Option to enable search boxes.
 - Easily toggle between column widths being supplied or calculated automatically based on heading title width
+- Method to refresh(replace) data in the treeview with a with a new set. This applies to the data only, not headings. Destroy and rebuild the tree if new headings are needed too. 
 
 # How to use it: (Check example.py for full working example)
 - Create a frame you want it to be housed in.
@@ -46,6 +47,10 @@ This will call the function 'test_func' and send it the current selected row inf
 - To read data from the search box:
 ```python
 temp_var = getattr(tree_1, search_headings[1]).get()
+```
+- To refresh(replace) the data inside the treeview with a new set:
+```python
+tree_1.refresh_data(new_data)
 ```
 
 # To-Do list
