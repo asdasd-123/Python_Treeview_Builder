@@ -216,3 +216,4 @@ class TreeBuild:
         self.tree.delete(*self.tree.get_children())
         for row in new_data:
             self.tree.insert('', 'end', values=row)
+        self.original_data = new_data
