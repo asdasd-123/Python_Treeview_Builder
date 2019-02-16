@@ -204,7 +204,7 @@ class TreeBuild:
         col = dh.index(col_st)
         new_data = []   # List to store new filtered list
         for row in ds:  # Build new filtered list
-            if (row[col].upper()).__contains__(st.upper()):
+            if (str(row[col]).upper()).__contains__(st.upper()):
                 new_data.append(row)
         tree.delete(*tree.get_children())   # Delete all items in tree
         self.data = new_data
