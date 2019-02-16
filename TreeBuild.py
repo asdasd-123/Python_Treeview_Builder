@@ -148,10 +148,11 @@ class TreeBuild:
                              fill="both")
 
         # Build tree
-        self.tree = ttk.Treeview(columns=self.original_headings,
+        self.tree = ttk.Treeview(self.parent, columns=self.original_headings,
                                  show="headings",
                                  selectmode="browse")
-        vsb = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
+        vsb = ttk.Scrollbar(self.parent, orient="vertical",
+                            command=self.tree.yview)
         self.tree.configure(yscrollcommand=vsb.set)
         self.tree.grid(column=0, row=0, sticky="nsew", in_=self.tree_frame)
         vsb.grid(column=1, row=0, sticky="ns", in_=self.tree_frame)
