@@ -7,7 +7,7 @@
 #     |_|_|  \___|\___|____/ \__,_|_|_|\__,_|
 #
 # =============================================
-# This module will build a TTK Treeview widget inside a supplied frame.
+# This library will build a TTK Treeview widget inside a supplied frame.
 #
 # An example of how to create one:
 # tree_1 = TreeBuild(
@@ -30,6 +30,15 @@ import tkinter.font as tkfont
 
 
 class TreeBuild:
+    """Will place a treeview with provided data set,
+    complete with search boxes if needed.
+    * - Optional
+    parent  - parent frame
+    data    - list of lists containing row data
+    heading - list of heading names
+    search* - Default=False. True to add search boxes
+    widths* - List of fixed column widths, otherwise auto selected
+    """
     def __init__(self, parent, data, headings, search=False, widths=[]):
         """Will place a treeview with provided data set,
         complete with search boxes if needed.
@@ -53,8 +62,6 @@ class TreeBuild:
         else:
             self.widths_supplied = False
 
-        # Setup any styles used.
-        self._setup_styles()
         self._convert_headings()
 
         # Saving the below example incase I need to access any kwargs
@@ -65,26 +72,6 @@ class TreeBuild:
 
         self._build_tree()
         self._populate_tree()
-
-    def _setup_styles(self):
-        self.blue_frame = ttk.Style()
-        self.blue_frame.configure("blue.TFrame", background="blue")
-        self.green_frame = ttk.Style()
-        self.green_frame.configure("green.TFrame", background="green")
-        self.red_frame = ttk.Style()
-        self.red_frame.configure("red.TFrame", background="red")
-        self.yellow_frame = ttk.Style()
-        self.yellow_frame.configure("yellow.TFrame", background="yellow")
-        self.pink_frame = ttk.Style()
-        self.pink_frame.configure("pink.TFrame", background="pink")
-        self.brown_frame = ttk.Style()
-        self.brown_frame.configure("brown.TFrame", background="brown")
-        self.grey_frame = ttk.Style()
-        self.grey_frame.configure("grey.TFrame", background="grey")
-        self.purple_frame = ttk.Style()
-        self.purple_frame.configure("purple.TFrame", background="purple")
-        self.white_frame = ttk.Style()
-        self.white_frame.configure("white.TFrame", background="white")
 
     def _convert_headings(self):
         """convert the headings list to a list of ID's
@@ -98,7 +85,6 @@ class TreeBuild:
                 new_heading_list.append(self.widths[counter])
             new_headings.append(new_heading_list)
         self.headings = list(new_headings)
-        print("new headings:\n\n" + str(self.headings))
 
         # Now setting all new heading info as attributes of TreeBuild
         # for row in self.headings:
@@ -174,7 +160,6 @@ class TreeBuild:
                 anchor="w",
                 command=lambda c=col[0]: self._sort_tree(self.tree, c, 0))
             self.tree.column(col[0], width=w, anchor="w", stretch="No")
-        print("Built Tree")
 
     def _populate_tree(self):
         for item in self.data:
@@ -225,3 +210,11 @@ class TreeBuild:
         self.data = new_data
         for row in new_data:                # Build up tree with new data
             tree.insert('', 'end', values=row)
+
+    def refresh_data(self, new_data):
+        """Will refresh the data in the tree with a new set provided.
+        Will not affect columns/headings"""
+        self.tree.delete(*self.tree.get_children())
+        for row in new_data:
+            self.tree.insert('', 'end', values=row)
+        self.original_data = new_data

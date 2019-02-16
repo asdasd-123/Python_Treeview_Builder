@@ -29,4 +29,14 @@ tree_1 = TreeBuild(
     headings=search_headings)           # List of tree headings
 
 
+# Bind test function to treeview double-click event.
+def test_func(temp):
+    print(temp['values'][0])
+
+
+tree_1.tree.bind(
+    "<Double-1>",
+    lambda c: test_func(tree_1.tree.item(tree_1.tree.focus())))
+
+# Make window visible
 root.mainloop()
